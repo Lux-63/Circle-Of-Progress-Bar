@@ -131,6 +131,30 @@ function startAutoLoadBar() {
 function stopAutoLoadBar() {
   setTimeout(clearInterval(startInterval))
 }
+
+function runWarning() {
+  setTimeout(clearInterval(startInterval))
+  if (wiewStatusLoad.value != 'error') {
+    wiewStatusLoad.value = 'waring'
+    mistakeLoad = true
+    circleBar.value.classList.remove('dots-three')
+    circleBar.value.classList.add('dots-warning')
+    setTimeout(() => {
+      circleBar.value.style.stroke = 'rgb(233, 175, 17)'
+    }, 3000)
+  }
+}
+function runEror() {
+  setTimeout(clearInterval(startInterval))
+  if (wiewStatusLoad.value != 'warning') {
+    wiewStatusLoad.value = 'error'
+    mistakeLoad = true
+    circleBar.value.classList.add('dots-error')
+    setTimeout(() => {
+      circleBar.value.style.stroke = 'rgb(233, 17, 17)'
+    }, 3000)
+  }
+}
 </script>
 
 <template>
@@ -174,8 +198,12 @@ function stopAutoLoadBar() {
         ></circle>
       </svg>
     </div>
-    <div>
+    <div class="info-position">
       {{ wiewStatusLoad }}
+    </div>
+    <div>
+      <button @click="runWarning()">warning</button>
+      <button @click="runEror()">error</button>
     </div>
   </header>
 
@@ -183,6 +211,16 @@ function stopAutoLoadBar() {
 </template>
 
 <style>
+.info-position {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  padding-top: 45px;
+  left: 550px;
+  top: 110px;
+  text-align: center;
+}
+
 .dots-complette {
   animation: load-complette;
   transition-delay: 3s;
