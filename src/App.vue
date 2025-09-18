@@ -1,10 +1,11 @@
 <script setup>
 import CircumFerence from './components/CircumFerence.vue'
 import DashBoard from './components/DashBoard.vue'
+import LineBoard from './components/LineBoard.vue'
 import { ref } from 'vue'
 
 let currentStateInfo = ref('circleboard')
-let currentStateBar = ref(true)
+let currentStateBar = ref(false)
 
 function switchingProgressBar() {
   if (currentStateInfo.value == 'circleboard') {
@@ -27,7 +28,7 @@ function switchingProgressBar() {
       <circum-ference />
     </div>
     <div v-else="currentStateBar">
-      <dash-board />
+      <line-board />
     </div>
   </header>
 

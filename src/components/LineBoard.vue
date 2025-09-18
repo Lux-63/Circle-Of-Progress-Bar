@@ -44,8 +44,7 @@ function stepProgress() {
 }
 function drawColorBar(n) {
   let progressLoad = n
-
-  console.log('старт рисования')
+  let coordinateX = console.log('старт рисования')
   if (Math.round(progressLoad) >= 20 && progressLoad < 25) {
     console.log('сработало')
     colorBar = '#cb0a0a'
@@ -80,19 +79,25 @@ function drawColorBar(n) {
   }
   circleBar.value.style.stroke = colorBar
   // circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-  circleBar.value.style.strokeDashoffset = `${progressBarLoad.value}`
-  console.log(lengthCircumference, progressLoad, progressBarLoad.value)
+  // circleBar.value.style.strokeDashoffset = `${progressBarLoad.value}`
+  circleBar.value.setAttribute('x2', (220 * progressLoad) / 100),
+    console.log(lengthCircumference, progressLoad, progressBarLoad.value)
 }
 
 function checkButton() {
   // progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
   // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
+  // progressBarLoad.value = 150
+  let precent = (220 * progressLoad) / 100
 
   console.log(
+    progressLoad,
+    '%',
+    precent,
     'chack',
     circleBar.value,
     circleBar.value.getAttribute('x2'),
-    circleBar.value.setAttribute('x2', '150'),
+    circleBar.value.setAttribute('x2', progressLoad),
   )
 }
 
@@ -199,12 +204,12 @@ function runEror() {
           xmlns="http://www.w3.org/2000/svg"
           style="transform: rotate(0deg)"
         >
-          <line x1="20" y1="0" x2="220" y2="0" stroke="rgb(224, 224, 224)" stroke-width="20"></line>
+          <line x1="0" y1="0" x2="220" y2="0" stroke="rgb(224, 224, 224)" stroke-width="20"></line>
           <line
             ref="circleBar"
-            x1="20"
+            x1="0"
             y1="0"
-            x2="30"
+            x2="0"
             y2="0"
             stroke="rgb(17, 42, 233)"
             stroke-width="20"

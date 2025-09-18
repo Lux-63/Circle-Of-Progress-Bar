@@ -1,6 +1,6 @@
 # Circle-Of-Progress-Bar
 
-This template should help get you started developing with Vue 3 in Vite.
+page: https://lux-63.github.io/Circle-Of-Progress-Bar/
 
 ## Recommended IDE Setup
 
