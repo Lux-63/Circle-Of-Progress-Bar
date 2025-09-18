@@ -5,7 +5,7 @@ import LineBoard from './components/LineBoard.vue'
 import { ref } from 'vue'
 
 let currentStateInfo = ref('circleboard')
-let currentStateBar = ref(false)
+let currentStateBar = ref(true)
 
 function switchingProgressBar() {
   if (currentStateInfo.value == 'circleboard') {
