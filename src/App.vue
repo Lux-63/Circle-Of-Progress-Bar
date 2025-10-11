@@ -4,35 +4,61 @@ import DashBoard from './components/DashBoard.vue'
 import LineBoard from './components/LineBoard.vue'
 import { ref } from 'vue'
 
-let currentStateInfo = ref('circleboard')
-let currentStateBar = ref(true)
+// let currentStateInfo = ref('circleboard')
+// let currentStateBar = ref(0)
+const isViewCircleBoard = ref(true)
+const isViewDashBoard = ref(false)
+const isViewLineBoard = ref(false)
 
-function switchingProgressBar() {
-  if (currentStateInfo.value == 'circleboard') {
-    currentStateInfo.value = 'dashboard'
-    currentStateBar.value = !currentStateBar.value
-  } else if (currentStateInfo.value == 'dashboard') {
-    currentStateInfo.value = 'circleboard'
-    currentStateBar.value = !currentStateBar.value
-  }
+// function switchingProgressBar() {
+//   if (currentStateInfo.value == 'circleboard') {
+//     currentStateInfo.value = 'dashBoard'
+//     currentStateBar.value = !currentStateBar.value
+//   } else if (currentStateInfo.value == 'dashBoard') {
+//     currentStateInfo.value = 'circleboard'
+//     currentStateBar.value = !currentStateBar.value
+//   }
+// }
+function showCircleboard() {
+  isViewCircleBoard.value = true
+  isViewDashBoard.value = false
+  isViewLineBoard.value = false
+}
+function showDashBoard() {
+  isViewCircleBoard.value = false
+  isViewDashBoard.value = true
+  isViewLineBoard.value = false
+}
+function showLineBoard() {
+  isViewCircleBoard.value = false
+  isViewDashBoard.value = false
+  isViewLineBoard.value = true
 }
 </script>
 
 <template>
   <div>
-    <button @click="switchingProgressBar">сейчас {{ currentStateInfo }}</button>
+    <!-- <button @click="switchingProgressBar">сейчас {{ currentStateInfo }}</button> -->
   </div>
   <p />
   <header>
-    <div v-if="currentStateBar">
+    <!-- <div v-if="currentStateBar">
       <circum-ference />
     </div>
     <div v-else="currentStateBar">
-      <line-board />
-    </div>
-  </header>
+      <dash-board />
+    </div> -->
 
-  <main></main>
+    <button @click="showCircleboard">circleboard</button>
+    <button @click="showDashBoard">dashBoard</button>
+    <button @click="showLineBoard">lineBoard</button>
+  </header>
+  <p />
+  <main>
+    <CircumFerence v-if="isViewCircleBoard" />
+    <DashBoard v-if="isViewDashBoard" />
+    <LineBoard v-if="isViewLineBoard" />
+  </main>
 </template>
 
 <style>

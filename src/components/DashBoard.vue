@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue'
 let lengthCircumference = 0
 let mistakeLoad = false // needed to give an error or warning.
 let progressLoad = 0 // how many were loaded.
+let dashOffsetMeaningOne = 0 // Need for correct display of loading.
+let dashOffsetMeaningTwo = 800 // Need for correct display of loading.
 let StartLoading = 0 // to start painting the circle with red color.
 let circleBar = ref(null) // second circle for changing colors.
 let wiewStatusLoad = ref(0)
@@ -31,11 +33,20 @@ function stepProgress() {
   if (progressLoad < 100 && mistakeLoad === false) {
     // progressLoad += 0.03;
     progressLoad += 0.1
+    dashOffsetMeaningOne = 0 + Math.round((600 * progressLoad) / 100)
+    dashOffsetMeaningTwo = 800 - Math.round((600 * progressLoad) / 100)
     progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
 
     wiewStatusLoad.value = Math.round(progressLoad)
     drawColorBar(progressLoad)
-    console.log('info %', progressBarLoad.value, progressLoad)
+    console.log(
+      'info %',
+      progressBarLoad.value,
+      progressLoad,
+      'тут мы смотрим состояние значений',
+      dashOffsetMeaningOne,
+      dashOffsetMeaningTwo,
+    )
   } else {
     stopAutoLoadBar()
     // console.log('loading stopped')
@@ -80,19 +91,25 @@ function drawColorBar(n) {
   }
   circleBar.value.style.stroke = colorBar
   // circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-  circleBar.value.style.strokeDashoffset = `${progressBarLoad.value}`
+  // circleBar.value.style.strokeDashdasharray = `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`
+  circleBar.value.setAttribute(
+    'stroke-dasharray',
+    `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`,
+  )
   console.log(lengthCircumference, progressLoad, progressBarLoad.value)
 }
 
 function checkButton() {
   // progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
   // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
-
   console.log(
     'chack',
     circleBar.value,
     circleBar.value.getAttribute('x2'),
     circleBar.value.setAttribute('x2', '150'),
+    dashOffsetMeaningTwo,
+    progressBarLoad.value,
+    'это офсет',
   )
 }
 
@@ -147,49 +164,6 @@ function runEror() {
 
     <div class="wiew-svg">
       <div>
-        <!-- <svg ref="circleBar" width="236" height="236" viewbox="0 0 295 295">
-          <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
-          <path class="grey" d="M30,90 A40,40 0 1,1 80,90" fill="none" />
-          <path id="purple" fill="none" class="purple" d="M30,90 A40,40 0 1,1 80,90" />
-          <path id="white" fill="none" class="white" d="M30,90 A40,40 0 1,1 80,90" />
-        </svg> -->
-
-        <!-- <svg
-          class="loading-circumference"
-          width="236"
-          height="236"
-          viewBox="-29.5 -29.5 295 295"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          style="transform: rotate(145deg)"
-        >
-          <circle
-            class="circle-bar-size js-load-bar"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="#e0e0e0"
-            stroke-width="30"
-            stroke-linecap="round"
-            stroke-dasharray="580 200"
-            stroke-dashoffset="0"
-          ></circle>
-          <circle
-            ref="circleBar"
-            class="circle-bar-size"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="rgb(17, 42, 233)"
-            stroke-width="17"
-            stroke-linecap="round"
-            stroke-dasharray="580 200"
-            stroke-dashoffset="0"
-          ></circle>
-        </svg> -->
-
         <svg
           class="loading-circumference"
           width="236"
@@ -199,16 +173,31 @@ function runEror() {
           xmlns="http://www.w3.org/2000/svg"
           style="transform: rotate(0deg)"
         >
-          <line x1="20" y1="0" x2="220" y2="0" stroke="rgb(224, 224, 224)" stroke-width="20"></line>
-          <line
+          <circle
+            class="circle-bar-size js-load-bar"
+            r="127"
+            cx="118"
+            cy="118"
+            fill="transparent"
+            stroke="#e0e0e0"
+            stroke-width="17"
+            stroke-linecap="round"
+            stroke-dasharray="580 200"
+            stroke-dashoffset="480"
+          ></circle>
+          <circle
             ref="circleBar"
-            x1="20"
-            y1="0"
-            x2="30"
-            y2="0"
-            stroke="rgb(17, 42, 233)"
-            stroke-width="20"
-          ></line>
+            class="circle-bar-size"
+            r="127"
+            cx="118"
+            cy="118"
+            fill="transparent"
+            stroke="#e0e0e0"
+            stroke-width="17"
+            stroke-linecap="round"
+            stroke-dasharray="0 800"
+            stroke-dashoffset="500"
+          ></circle>
         </svg>
       </div>
       <div class="info-position" ref="wiewStatusBar">
