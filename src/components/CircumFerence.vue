@@ -8,7 +8,8 @@ let StartLoading = 0 // to start painting the circle with red color.
 let circleBar = ref(null) // second circle for changing colors.
 let wiewStatusLoad = ref(0)
 let wiewStatusBar = ref(null) //here is the percentage display or a check mark or a cross.
-let displayInformationChange = ref(0) // change svg depending on loading status
+let displayInformationChange = ref(0) // change svg depending on loading status.
+let startIntervalChange = false
 let progressBarLoad = ref(678)
 let radiusCircle = 0
 let startInterval = null
@@ -99,10 +100,13 @@ function checkButton() {
 }
 
 function startAutoLoadBar() {
-  startInterval = setInterval(() => {
-    // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
-    stepProgress()
-  }, 10)
+  if (startIntervalChange == false) {
+    startIntervalChange = true
+    startInterval = setInterval(() => {
+      // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
+      stepProgress()
+    }, 10)
+  }
 }
 
 function stopAutoLoadBar() {

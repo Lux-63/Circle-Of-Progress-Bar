@@ -11,6 +11,7 @@ let circleBar = ref(null) // second circle for changing colors.
 let wiewStatusLoad = ref(0)
 let wiewStatusBar = ref(null) //here is the percentage display or a check mark or a cross.
 let displayInformationChange = ref(0) // change svg depending on loading status
+let startIntervalChange = false
 let progressBarLoad = ref(678)
 let radiusCircle = 0
 let startInterval = null
@@ -102,22 +103,17 @@ function drawColorBar(n) {
 function checkButton() {
   // progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
   // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
-  console.log(
-    'chack',
-    circleBar.value,
-    circleBar.value.getAttribute('x2'),
-    circleBar.value.setAttribute('x2', '150'),
-    dashOffsetMeaningTwo,
-    progressBarLoad.value,
-    'это офсет',
-  )
+  console.log('chack', wiewStatusLoad.value)
 }
 
 function startAutoLoadBar() {
-  startInterval = setInterval(() => {
-    // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
-    stepProgress()
-  }, 10)
+  if (startIntervalChange == false) {
+    startIntervalChange = true
+    startInterval = setInterval(() => {
+      // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
+      stepProgress()
+    }, 10)
+  }
 }
 
 function stopAutoLoadBar() {
@@ -126,9 +122,9 @@ function stopAutoLoadBar() {
 
 function runWarning() {
   setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'error') {
+  if (wiewStatusLoad.value != 'error' && wiewStatusLoad.value != 'warning') {
     displayInformationChange.value = 3
-    wiewStatusLoad.value = 'waring'
+    wiewStatusLoad.value = 'warning'
     mistakeLoad = true
     circleBar.value.classList.remove('dots-three')
     circleBar.value.classList.add('dots-warning')
@@ -139,7 +135,7 @@ function runWarning() {
 }
 function runEror() {
   setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'warning') {
+  if (wiewStatusLoad.value != 'warning' && wiewStatusLoad.value != 'error') {
     displayInformationChange.value = 2
     wiewStatusLoad.value = 'error'
     mistakeLoad = true
