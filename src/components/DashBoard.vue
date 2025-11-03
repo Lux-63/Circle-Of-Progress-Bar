@@ -19,12 +19,10 @@ let colorBar = '#00cc00'
 onMounted(() => {
   lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
   radiusCircle = Number(circleBar.value.getAttribute('r'))
-  // progressBarLoad = ref(0)
   console.log(lengthCircumference, radiusCircle)
 })
 
 function stepProgress() {
-  // console.log(mistakeLoad)
   if (StartLoading == 0) {
     //if there is no check, then every time the download continues, a red color will appear.
     colorBar = 'rgb(255, 0, 0)'
@@ -32,7 +30,6 @@ function stepProgress() {
   }
   StartLoading = 1
   if (progressLoad < 100 && mistakeLoad === false) {
-    // progressLoad += 0.03;
     progressLoad += 0.1
     dashOffsetMeaningOne = 0 + Math.round((600 * progressLoad) / 100)
     dashOffsetMeaningTwo = 800 - Math.round((600 * progressLoad) / 100)
@@ -50,7 +47,6 @@ function stepProgress() {
     )
   } else {
     stopAutoLoadBar()
-    // console.log('loading stopped')
   }
   console.log()
 }
@@ -91,8 +87,6 @@ function drawColorBar(n) {
     displayInformationChange.value = 1
   }
   circleBar.value.style.stroke = colorBar
-  // circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-  // circleBar.value.style.strokeDashdasharray = `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`
   circleBar.value.setAttribute(
     'stroke-dasharray',
     `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`,
@@ -101,8 +95,6 @@ function drawColorBar(n) {
 }
 
 function checkButton() {
-  // progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
-  // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
   console.log('chack', wiewStatusLoad.value)
 }
 
@@ -110,14 +102,16 @@ function startAutoLoadBar() {
   if (startIntervalChange == false) {
     startIntervalChange = true
     startInterval = setInterval(() => {
-      // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
       stepProgress()
     }, 10)
   }
 }
 
 function stopAutoLoadBar() {
-  setTimeout(clearInterval(startInterval))
+  if (startIntervalChange === true) {
+    startIntervalChange = false
+    setTimeout(clearInterval(startInterval))
+  }
 }
 
 function runWarning() {
@@ -152,8 +146,8 @@ function runEror() {
   <div>dashboard</div>
   <header>
     <div>
-      <button @click="startAutoLoadBar()">autostart</button>
-      <button @click="stopAutoLoadBar()">autostop</button>
+      <button @click="startAutoLoadBar()">start</button>
+      <button @click="stopAutoLoadBar()">stop</button>
       <button @click="checkButton()">testing</button>
       <button @click="stepProgress()">step</button>
     </div>

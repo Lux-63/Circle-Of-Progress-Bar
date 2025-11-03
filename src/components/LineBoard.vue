@@ -17,12 +17,10 @@ let colorBar = '#00cc00'
 onMounted(() => {
   lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
   radiusCircle = Number(circleBar.value.getAttribute('r'))
-  // progressBarLoad = ref(0)
   console.log(lengthCircumference, radiusCircle)
 })
 
 function stepProgress() {
-  // console.log(mistakeLoad)
   if (StartLoading == 0) {
     //if there is no check, then every time the download continues, a red color will appear.
     colorBar = 'rgb(255, 0, 0)'
@@ -30,7 +28,6 @@ function stepProgress() {
   }
   StartLoading = 1
   if (progressLoad < 100 && mistakeLoad === false) {
-    // progressLoad += 0.03;
     progressLoad += 0.1
     progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
 
@@ -39,7 +36,6 @@ function stepProgress() {
     console.log('info %', progressBarLoad.value, progressLoad)
   } else {
     stopAutoLoadBar()
-    // console.log('loading stopped')
   }
   console.log()
 }
@@ -79,16 +75,11 @@ function drawColorBar(n) {
     displayInformationChange.value = 1
   }
   circleBar.value.style.stroke = colorBar
-  // circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-  // circleBar.value.style.strokeDashoffset = `${progressBarLoad.value}`
   circleBar.value.setAttribute('x2', (220 * progressLoad) / 100),
     console.log(lengthCircumference, progressLoad, progressBarLoad.value)
 }
 
 function checkButton() {
-  // progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
-  // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
-  // progressBarLoad.value = 150
   let precent = (220 * progressLoad) / 100
 
   console.log(
@@ -106,21 +97,23 @@ function startAutoLoadBar() {
   if (startIntervalChange == false) {
     startIntervalChange = true
     startInterval = setInterval(() => {
-      // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
       stepProgress()
     }, 10)
   }
 }
 
 function stopAutoLoadBar() {
-  setTimeout(clearInterval(startInterval))
+  if (startIntervalChange === true) {
+    startIntervalChange = false
+    setTimeout(clearInterval(startInterval))
+  }
 }
 
 function runWarning() {
   setTimeout(clearInterval(startInterval))
   if (wiewStatusLoad.value != 'error') {
     displayInformationChange.value = 3
-    wiewStatusLoad.value = 'waring'
+    wiewStatusLoad.value = 'warning'
     mistakeLoad = true
     circleBar.value.classList.remove('dots-three')
     circleBar.value.classList.add('dots-warning')
@@ -148,57 +141,14 @@ function runEror() {
   <div>lineboard</div>
   <header>
     <div>
-      <button @click="startAutoLoadBar()">autostart</button>
-      <button @click="stopAutoLoadBar()">autostop</button>
+      <button @click="startAutoLoadBar()">start</button>
+      <button @click="stopAutoLoadBar()">stop</button>
       <button @click="checkButton()">testing</button>
       <button @click="stepProgress()">step</button>
     </div>
 
     <div class="wiew-svg">
       <div>
-        <!-- <svg ref="circleBar" width="236" height="236" viewbox="0 0 295 295">
-          <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
-          <path class="grey" d="M30,90 A40,40 0 1,1 80,90" fill="none" />
-          <path id="purple" fill="none" class="purple" d="M30,90 A40,40 0 1,1 80,90" />
-          <path id="white" fill="none" class="white" d="M30,90 A40,40 0 1,1 80,90" />
-        </svg> -->
-
-        <!-- <svg
-          class="loading-circumference"
-          width="236"
-          height="236"
-          viewBox="-29.5 -29.5 295 295"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          style="transform: rotate(145deg)"
-        >
-          <circle
-            class="circle-bar-size js-load-bar"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="#e0e0e0"
-            stroke-width="30"
-            stroke-linecap="round"
-            stroke-dasharray="580 200"
-            stroke-dashoffset="0"
-          ></circle>
-          <circle
-            ref="circleBar"
-            class="circle-bar-size"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="rgb(17, 42, 233)"
-            stroke-width="17"
-            stroke-linecap="round"
-            stroke-dasharray="580 200"
-            stroke-dashoffset="0"
-          ></circle>
-        </svg> -->
-
         <svg
           class="loading-circumference"
           width="236"

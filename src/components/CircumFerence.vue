@@ -14,7 +14,6 @@ let progressBarLoad = ref(678)
 let radiusCircle = 0
 let startInterval = null
 let colorBar = '#00cc00'
-// let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
 onMounted(() => {
   lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
   radiusCircle = Number(circleBar.value.getAttribute('r'))
@@ -23,7 +22,6 @@ onMounted(() => {
 })
 
 function stepProgress() {
-  // console.log(mistakeLoad)
   if (StartLoading == 0) {
     //if there is no check, then every time the download continues, a red color will appear.
     colorBar = 'rgb(255, 0, 0)'
@@ -31,7 +29,6 @@ function stepProgress() {
   }
   StartLoading = 1
   if (progressLoad < 100 && mistakeLoad === false) {
-    // progressLoad += 0.03;
     progressLoad += 0.1
     progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
 
@@ -40,7 +37,6 @@ function stepProgress() {
     console.log('info %', progressBarLoad.value, progressLoad)
   } else {
     stopAutoLoadBar()
-    // console.log('loading stopped')
   }
   console.log()
 }
@@ -81,14 +77,12 @@ function drawColorBar(n) {
     displayInformationChange.value = 1
   }
   circleBar.value.style.stroke = colorBar
-  // circleBar.value.style.stroke = 'rgb(17, 42, 233)'
   circleBar.value.style.strokeDashoffset = `${progressBarLoad.value}`
   console.log(lengthCircumference, progressLoad, progressBarLoad.value)
 }
 
 function checkButton() {
   progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
-  // let lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
   console.log(
     progressLoad,
     progressBarLoad.value,
@@ -100,24 +94,27 @@ function checkButton() {
 }
 
 function startAutoLoadBar() {
-  if (startIntervalChange == false) {
+  if (startIntervalChange === false) {
+    // Между if и скобкой не должно ыть пробела да?
     startIntervalChange = true
     startInterval = setInterval(() => {
-      // circleBar.value.style.stroke = 'rgb(255, 0, 0)'
       stepProgress()
     }, 10)
   }
 }
 
 function stopAutoLoadBar() {
-  setTimeout(clearInterval(startInterval))
+  if (startIntervalChange === true) {
+    startIntervalChange = false
+    setTimeout(clearInterval(startInterval))
+  }
 }
 
 function runWarning() {
   setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'error') {
+  if (wiewStatusLoad.value !== 'error') {
     displayInformationChange.value = 3
-    wiewStatusLoad.value = 'waring'
+    wiewStatusLoad.value = 'warning'
     mistakeLoad = true
     circleBar.value.classList.remove('dots-three')
     circleBar.value.classList.add('dots-warning')
@@ -128,7 +125,7 @@ function runWarning() {
 }
 function runEror() {
   setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'warning') {
+  if (wiewStatusLoad.value !== 'warning') {
     displayInformationChange.value = 2
     wiewStatusLoad.value = 'error'
     mistakeLoad = true
@@ -145,8 +142,8 @@ function runEror() {
   <div>circleboard</div>
   <header>
     <div>
-      <button @click="startAutoLoadBar()">autostart</button>
-      <button @click="stopAutoLoadBar()">autostop</button>
+      <button @click="startAutoLoadBar()">start</button>
+      <button @click="stopAutoLoadBar()">stop</button>
       <button @click="checkButton()">testing</button>
       <button @click="stepProgress()">step</button>
     </div>
